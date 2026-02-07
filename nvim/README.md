@@ -55,7 +55,10 @@
 | Step Over | `F8` | Шаг через |
 | Step Into | `F7` | Шаг внутрь |
 | Step Out | `Shift+F8` | Шаг наружу |
+| Go to Declaration | `Alt+B` | Переход к объявлению |
+| Go to Implementation | `Ctrl+Alt+B` | Переход к реализации |
 | Database UI | `<leader>db` | Окно базы |
+| Comment Line/Block | `<leader>/` | Комментировать строку/блок |
 
 ## Запуск main-класса
 
