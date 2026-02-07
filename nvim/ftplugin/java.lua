@@ -1,6 +1,7 @@
 local jdtls = require("jdtls")
 local mason_path = vim.fn.stdpath("data") .. "/mason"
 local jdtls_cmd = mason_path .. "/bin/jdtls"
+local lombok_jar = mason_path .. "/packages/lombok/lombok.jar"
 local bundles = {}
 local java_debug = vim.fn.glob(mason_path .. "/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar")
 if java_debug ~= "" then
@@ -19,6 +20,14 @@ end
 
 local workspace_dir = vim.fn.stdpath("cache") .. "/jdtls/" .. vim.fn.fnamemodify(root_dir, ":p:h:t")
 
+local cmd = { jdtls_cmd, "-data", workspace_dir }
+if vim.fn.filereadable(lombok_jar) == 1 then
+  table.insert(cmd, 2, "-javaagent:" .. lombok_jar)
+  table.insert(cmd, 3, "-Xbootclasspath/a:" .. lombok_jar)
+end
+
+local config = {
+  cmd = cmd,
 local config = {
   cmd = { jdtls_cmd, "-data", workspace_dir },
   root_dir = root_dir,
@@ -51,6 +60,41 @@ local config = {
       require("jdtls.dap").setup_dap_main_class_configs()
       require("dap").continue()
     end, "Run Main Class")
+
+    local function run_in_terminal(command, label)
+      vim.cmd("botright split")
+      vim.cmd("resize 12")
+      vim.cmd("terminal " .. command)
+      vim.cmd("startinsert")
+      vim.notify(label .. ": " .. command)
+    end
+
+    local function build_command()
+      if vim.fn.filereadable(root_dir .. "/gradlew") == 1 then
+        return "./gradlew build"
+      end
+      if vim.fn.filereadable(root_dir .. "/mvnw") == 1 then
+        return "./mvnw -DskipTests package"
+      end
+      return "mvn -DskipTests package"
+    end
+
+    local function debug_command()
+      if vim.fn.filereadable(root_dir .. "/gradlew") == 1 then
+        return "./gradlew test --debug-jvm"
+      end
+      if vim.fn.filereadable(root_dir .. "/mvnw") == 1 then
+        return "./mvnw -Dmaven.surefire.debug test"
+      end
+      return "mvn -Dmaven.surefire.debug test"
+    end
+
+    map("<leader>jb", function()
+      run_in_terminal(build_command(), "Build")
+    end, "Build (Maven/Gradle)")
+    map("<leader>jd", function()
+      run_in_terminal(debug_command(), "Debug Tests (Maven/Gradle)")
+    end, "Debug Tests (Maven/Gradle)")
   end,
 }
 

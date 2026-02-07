@@ -42,6 +42,7 @@ require("lazy").setup({
       require("mason-lspconfig").setup({
         ensure_installed = {
           "jdtls",
+          "lombok",
           "lua_ls",
           "jsonls",
           "yamlls",
@@ -179,6 +180,17 @@ require("lazy").setup({
     "numToStr/Comment.nvim",
     config = function()
       require("Comment").setup()
+    end,
+  },
+  {
+    "akinsho/toggleterm.nvim",
+    version = "*",
+    config = function()
+      require("toggleterm").setup({
+        size = 12,
+        open_mapping = [[<C-`>]],
+        direction = "horizontal",
+      })
     end,
   },
   {

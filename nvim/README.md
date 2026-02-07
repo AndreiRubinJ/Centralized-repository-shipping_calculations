@@ -5,6 +5,9 @@
 ## Быстрый старт
 
 1. Установите Neovim 0.9+.
+2. Запустите установщик из папки `nvim`:
+   ```bash
+   ./nvim/install.sh
 2. Скопируйте содержимое папки `nvim` в ваш `~/.config/nvim` (или сделайте симлинк):
    ```bash
    ln -s "$(pwd)/nvim" ~/.config/nvim
@@ -16,6 +19,7 @@
    ```
    Убедитесь, что установлены:
    - `jdtls`
+   - `lombok`
    - `java-debug-adapter`
    - `java-test`
    - `lua-language-server`
@@ -25,6 +29,7 @@
 ### Java / Spring / Hibernate
 - `nvim-jdtls` + `jdtls` — полноценный Java LSP.
 - `spring-boot.nvim` — действия для Spring Boot.
+- Поддержка Lombok через `lombok.jar` (Mason пакет `lombok`).
 
 ### Дебаг
 - `nvim-dap`, `nvim-dap-ui`, `nvim-dap-virtual-text`.
@@ -59,6 +64,8 @@
 | Go to Implementation | `Ctrl+Alt+B` | Переход к реализации |
 | Database UI | `<leader>db` | Окно базы |
 | Comment Line/Block | `<leader>/` | Комментировать строку/блок |
+| Build (Maven/Gradle) | `<leader>jb` | Сборка проекта |
+| Debug Tests (Maven/Gradle) | `<leader>jd` | Запуск тестов с debug |
 
 ## Запуск main-класса
 
