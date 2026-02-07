@@ -28,6 +28,8 @@ end
 
 local config = {
   cmd = cmd,
+local config = {
+  cmd = { jdtls_cmd, "-data", workspace_dir },
   root_dir = root_dir,
   init_options = { bundles = bundles },
   settings = {
